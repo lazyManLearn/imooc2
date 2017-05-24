@@ -1,0 +1,15 @@
+extends ../layout
+block content
+   form.form-horizontal.center-block(method="POST",action="/user/signin",style="width: 600px;")
+      .form-group
+         label.control-label.col-sm-3 用户名
+         .col-sm-8
+            input.form-control(name="user[name]",type="text")
+      .form-group
+         label.control-label.col-sm-3 密码
+         .col-sm-8
+            input.form-control(name="user[password]",type="password")
+      .form-group
+         .col-sm-offset-3.col-sm-8
+            button.btn.btn-primary(type="submit") 登录
+

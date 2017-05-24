@@ -1,0 +1,59 @@
+extends ../layout
+block content
+    .container
+        .row
+            .panel.panel-default
+                .panel-heading
+                    h3 #{keywords}
+                .panel-body
+                    if movies && movies.length>0
+                        each item in movies
+                            .col-md-2
+                                .thumbnail
+                                    a(href="/movie/#{item._id}")
+                                        if(item.poster.indexOf('http:')>-1||item.poster.indexOf('https:')>-1)
+                                            img(src="#{item.poster}",alt="#{item.title}")
+                                        else
+                                            img(src="/upload/#{item.poster}",alt="#{item.title}")
+                                    .caption.text-center
+                                        h3 #{item.title}
+                                        p: a.btn.btn-primary(href="/movie/#{item._id}",role="button") 观看预告片
+        ul.pagination
+            - if(showPageNum>totalPage){
+                - for(var i=0;i<totalPage;i++){
+                    - if(i==currentPage){
+                        li.active
+                            span #{currentPage + 1}
+                    - }else{
+                        li
+                            a(href='/results?#{query}&p=#{i}') #{i + 1}
+                    - }
+                - }
+            - }else{
+                - var leftBtnNum=Math.floor((showPageNum-1)/2);
+                - var startPage=(currentPage-leftBtnNum)>0?(currentPage-leftBtnNum):0;
+                -if((startPage+showPageNum)>totalPage){
+                    - startPage=totalPage-showPageNum;
+                -}
+                - if(startPage>0){
+                    li
+                        a(href='/results?#{query}&p=#{prev}') 上一页
+                    li
+                        span ...
+                - }
+                - for(var i=0;i<showPageNum;i++){
+                    - if((startPage+i)==currentPage){
+                        li.active
+                            span #{currentPage + 1}
+                    - }else{
+                        li
+                            a(href='/results?#{query}&p=#{startPage+i}') #{startPage+i + 1}
+                    - }
+                - }
+                - if((startPage+showPageNum)<totalPage){
+                    li
+                        span ...
+                    li
+                        a(href='/results?#{query}&p=#{next}') 下一页
+                - }
+            - }
